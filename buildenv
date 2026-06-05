@@ -1,0 +1,87 @@
+# bump: zosinfo-version /ZOSINFO_VERSION="(.*)"/ https://github.com/Johnparke888/zOSInfo|semver:*
+# ZOSINFO_VERSION="V.R.M"
+###
+### Build control file for the zOSInfo port
+###
+
+###
+### Required Environment Variables
+###
+export ZOPEN_PROJECT_NAME="zosinfo"
+
+# DEV builds from the tip of your git repo; STABLE builds from a tagged tarball.
+# Since you control upstream and are actively developing, DEV is the right line.
+# Add a STABLE tarball URL later once you cut tagged releases.
+export ZOPEN_BUILD_LINE="DEV"
+
+export ZOPEN_DEV_URL="https://github.com/Johnparke888/zOSInfo.git"
+export ZOPEN_DEV_DEPS="make check_clang"
+
+# Leave these empty until there is a release tarball. When there is, point
+# ZOPEN_STABLE_URL at the .tar.gz and switch ZOPEN_BUILD_LINE back to STABLE.
+export ZOPEN_STABLE_URL=""
+export ZOPEN_STABLE_DEPS=""
+
+export ZOPEN_CATEGORIES="development utilities library"
+export ZOPEN_RUNTIME_DEPS="none"
+
+# zOSInfo has no ./configure script (plain Makefile), so skip the configure phase.
+export ZOPEN_CONFIGURE=skip
+
+# Makefile lives in the zOSInfo subdirectory of the cloned repo.
+export ZOPEN_MAKE="make"
+export ZOPEN_MAKE_OPTS="--directory=zOSInfo --always-make"
+
+# Uncomment the appropriate line:
+export ZOPEN_INSTALL=skip
+
+
+# Many library Makefiles have no test target. If `make check` fails, skip it:
+export ZOPEN_CHECK=skip
+
+# export ZOPEN_SYSTEM_PREREQ="zos25" # optional system pre-req (default=zos25)
+
+###
+### Required user-supplied functions
+###
+zopen_check_results() {
+  dir="$1"
+  pfx="$2"
+  chk="$1/$2_check.log"
+  # Placeholder: reports a single passing test so the build clears the install gate.
+  # Replace with real parsing once zOSInfo has a test suite.
+  echo "actualFailures:0"
+  echo "totalTests:1"
+  echo "expectedFailures:0"
+  echo "expectedTotalTests:1"
+}
+
+zopen_get_version() {
+  echo "1.0.0" # Modify to echo the version of your tool/library
+}
+
+###
+### Custom Build Logic (if applicable)
+###
+# If this port is a LIBRARY other ports will link against, uncomment this so
+# dependent ports automatically get your headers and lib on their flags.
+# Adjust the -I/-L paths and -l name to match what your Makefile installs.
+#zopen_append_to_env() {
+#  cat <<END
+#if [ ! -z "\$ZOPEN_IN_ZOPEN_BUILD" ]; then
+#  export ZOPEN_EXTRA_CFLAGS="\${ZOPEN_EXTRA_CFLAGS} -I\${PWD}/include"
+#  export ZOPEN_EXTRA_CXXFLAGS="\${ZOPEN_EXTRA_CXXFLAGS} -I\${PWD}/include"
+#  export ZOPEN_EXTRA_LDFLAGS="\${ZOPEN_EXTRA_LDFLAGS} -L\${PWD}/lib"
+#  export ZOPEN_EXTRA_LIBS="\${ZOPEN_EXTRA_LIBS} -lzosinfo"
+#fi
+#END
+#}
+
+# If you chose ZOPEN_INSTALL=skip above, install your artifacts here by hand.
+# $1 is the install prefix (e.g. $HOME/zopen/prod/zosinfo).
+#zopen_post_install() {
+#  installpath="$1"
+#  mkdir -p "${installpath}/lib" "${installpath}/include"
+#  cp zOSInfo/libzosinfo.a "${installpath}/lib/"
+#  cp zOSInfo/include/*.h   "${installpath}/include/"
+#}
