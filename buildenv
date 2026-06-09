@@ -4,7 +4,6 @@ ZOSINFO_VERSION="1.0.3"
 ###
 ### Build control file for the zOSInfo port
 ###
-echo "install=${ZOPEN_PKGINSTALL}"
 export ZOPEN_BUILD_LINE="STABLE"
 export ZOPEN_STABLE_URL="https://github.com/Johnparke888/zOSInfo/archive/refs/tags/${ZOSINFO_VERSION}.tar.gz"
 export ZOPEN_STABLE_DEPS="make check_clang"
