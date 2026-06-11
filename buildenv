@@ -1,6 +1,6 @@
 # bump: zosinfo-version /ZOSINFO_VERSION="(.*)"/ https://github.com/Johnparke888/zOSInfo.git|semver:*
-ZOSINFO_VERSION="1.0.3"
-
+ZOSINFO_VERSION="1.0.4"
+ 
 ###
 ### Build control file for the zOSInfo port
 ###
